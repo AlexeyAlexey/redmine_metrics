@@ -1,3 +1,17 @@
 = redmine_metrics
 
 Description goes here
+
+
+About ActiveSupport::Notifications
+
+  http://edgeguides.rubyonrails.org/active_support_instrumentation.html
+  http://rusrails.ru/active-support-instrumentation
+
+
+tail -f logfile.log | ruby -n input.rb
+tail -f action_controller_logger.log -f action_controller_logger.log | ruby -n input.rb
+
+  http://en.wikipedia.org/wiki/Pipeline_(Unix)#pipe_character
+  http://en.wikipedia.org/wiki/Tail_(Unix)
+  http://fsl.fmrib.ox.ac.uk/fslcourse/unix_intro/pipe.html
