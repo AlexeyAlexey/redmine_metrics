@@ -10,8 +10,10 @@ About ActiveSupport::Notifications
   http://rusrails.ru/active-support-instrumentation
 
 
-tail -f logfile.log | ruby -n input.rb
-tail -f action_controller_logger.log -f action_controller_logger.log | ruby -n input.rb
+tail -f action_controller_view_logger.log | ruby -n redmine_metrics_log_parser.rb
+(tail -f action_controller_view_logger.log -f action_controller_logger.log | ruby -n redmine_metrics_log_parser.rb)
+
+Log parser https://github.com/AlexeyAlexey/redmine_metrics_log_parser
 
   http://en.wikipedia.org/wiki/Pipeline_(Unix)#pipe_character
   http://en.wikipedia.org/wiki/Tail_(Unix)
