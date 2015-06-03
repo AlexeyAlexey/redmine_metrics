@@ -2,6 +2,7 @@
 
 Description goes here
 
+rake redmine:plugins:migrate NAME=redmine_metrics RAILS_ENV=development
 
 About ActiveSupport::Notifications
 

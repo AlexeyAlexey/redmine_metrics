@@ -11,7 +11,7 @@ ActionDispatch::Callbacks.to_prepare do
 	  #event.transaction_id
 	  #event.payload   # => {:extra=>information}
 	
-	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>start_time=#{event.time}<==>end_time=#{event.end}<==>duration=#{event.duration}<==>view_runtime=#{event.payload[:view_runtime]}<==>db_runtime=#{event.payload[:db_runtime]}<==>payload=#{event.payload}<="
+	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>view_runtime=#{event.payload[:view_runtime]}<==>db_runtime=#{event.payload[:db_runtime]}<==>payload=#{event.payload}<="
 	    
 	end
 	  
@@ -19,7 +19,7 @@ ActionDispatch::Callbacks.to_prepare do
 
 	ActiveSupport::Notifications.subscribe "render_template.action_view" do |*args|
 	  event = ActiveSupport::Notifications::Event.new *args
-	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>start_time=#{event.time}<==>end_time=#{event.end}<==>duration=#{event.duration}<==>payload=#{event.payload}<="
+	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>payload=#{event.payload}<="
 	end
   rescue Exception => e
   		

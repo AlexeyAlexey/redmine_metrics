@@ -9,6 +9,10 @@ class CreateActionViewLoggers < ActiveRecord::Migration
     end
     add_index :action_view_loggers, [:transaction_id]
   end
+
+  def self.down
+    drop_table :action_view_loggers
+  end
 end
 
 

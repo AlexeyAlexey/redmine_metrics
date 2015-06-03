@@ -5,10 +5,14 @@ class CreateActionControllerLoggers < ActiveRecord::Migration
       t.text     :payload
       t.datetime :start_time
       t.datetime :end_time
-      t.datetime :view_runtime
-      t.datetime :db_runtime
+      t.column   :view_runtime, 'FLOAT UNSIGNED'
+      t.column   :db_runtime, 'FLOAT UNSIGNED'
       t.column   :duration, 'FLOAT UNSIGNED'
     end
     add_index :action_controller_loggers, [:transaction_id]    
+  end
+
+  def self.down
+    drop_table :action_controller_loggers
   end
 end
