@@ -10,8 +10,13 @@ ActionDispatch::Callbacks.to_prepare do
 	  #event.duration  # => 10 (in milliseconds)
 	  #event.transaction_id
 	  #event.payload   # => {:extra=>information}
+	  current_user = ""
+	  begin
+	  	current_user = User.current
+	  rescue 	  	
+	  end
 	
-	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>controller=#{event.payload[:controller]}<==>action=#{event.payload[:action]}<==>status=#{event.payload[:status]}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>view_runtime=#{event.payload[:view_runtime]}<==>db_runtime=#{event.payload[:db_runtime]}<==>payload=#{event.payload}<="
+	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>current_user=#{current_user}<==>controller=#{event.payload[:controller]}<==>action=#{event.payload[:action]}<==>status=#{event.payload[:status]}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>view_runtime=#{event.payload[:view_runtime]}<==>db_runtime=#{event.payload[:db_runtime]}<==>payload=#{event.payload}<="
 	    
 	end
 	  

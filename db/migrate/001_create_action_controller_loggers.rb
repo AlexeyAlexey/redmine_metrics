@@ -2,6 +2,7 @@ class CreateActionControllerLoggers < ActiveRecord::Migration
   def change
     create_table :action_controller_loggers do |t|
       t.string   :transaction_id
+      t.string   :current_user,  default: ""   
       t.string   :controller
       t.string   :action
       t.integer  :status,       limit: 2, default: 0
