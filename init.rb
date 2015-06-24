@@ -1,7 +1,7 @@
 ActionDispatch::Callbacks.to_prepare do
   begin
-	action_controller_view_logger ||= Logger.new("#{Rails.root}/log/action_controller_view_logger.log")
-
+	action_controller_view_logger ||= Logger.new("#{Rails.root}/log/action_controller_view_logger.log")#, 7, 1000)
+    #Logger.new("#{Rails.root}/log/development.log", 7, 1048576)
 	ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
 	  event = ActiveSupport::Notifications::Event.new *args
 	  #event.name      # => "process_action.action_controller"
