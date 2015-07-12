@@ -1,7 +1,10 @@
 ActionDispatch::Callbacks.to_prepare do
+  Rails.logger.info 'Starting RedmineMetrics plugin for RedMine'
   begin
-	action_controller_view_logger ||= Logger.new("#{Rails.root}/log/action_controller_view_logger.log")#, 7, 1000)
-    #Logger.new("#{Rails.root}/log/development.log", 7, 1048576)
+  	path_to_logfile = File.dirname(__FILE__) + '/log/action_controller_view_logger.log'
+	action_controller_view_logger ||= Logger.new(path_to_logfile)
+	#action_controller_view_logger ||= Logger.new(patth_to_lofile, 7, 1048576)
+
 	ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
 	  event = ActiveSupport::Notifications::Event.new *args
 	  #event.name      # => "process_action.action_controller"
@@ -27,7 +30,7 @@ ActionDispatch::Callbacks.to_prepare do
 	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>payload=#{event.payload}<="
 	end
   rescue Exception => e
-  		
+  	Rails.logger.error "Error From RedmineMetrics plugin: #{e}"
   end
 end
 Redmine::Plugin.register :redmine_metrics do
