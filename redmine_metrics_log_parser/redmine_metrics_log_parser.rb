@@ -1,5 +1,3 @@
-puts "hello"
-
 require 'rubygems'  
 require 'active_record'  
 require 'byebug'
@@ -74,8 +72,8 @@ while x = gets
     ActiveRecord::Base.connection.execute(sql) unless sql.empty?
     
   rescue Exception => e
-     puts "#{e}"	
-     puts "#{e.backtrace.inspect}"
+     #puts "#{e}"	
+     #puts "#{e.backtrace.inspect}"
   end     
 end
 

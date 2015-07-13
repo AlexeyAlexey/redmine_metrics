@@ -2,31 +2,41 @@
 
 Description goes here
 
-rake redmine:plugins:migrate NAME=redmine_metrics RAILS_ENV=development
-
-About ActiveSupport::Notifications
-
-  http://edgeguides.rubyonrails.org/active_support_instrumentation.html
-  http://rusrails.ru/active-support-instrumentation
+  rake redmine:plugins:migrate NAME=redmine_metrics RAILS_ENV=development
 
 
-tail -f --max-unchanged-stats=2 action_controller_view_logger.log | ruby -n redmine_metrics_log_parser.rb
+
 (tail -f --max-unchanged-stats=2 action_controller_view_logger.log -f action_controller_logger.log | ruby -n redmine_metrics_log_parser.rb)
 
 
 tail -F action_controller_view_logger.log | ruby -n redmine_metrics_log_parser/redmine_metrics_log_parser.rb
   
+About ActiveSupport::Notifications
+  http://edgeguides.rubyonrails.org/active_support_instrumentation.html
+  http://rusrails.ru/active-support-instrumentation
 
-  --max-unchanged-stats=N
-              with  --follow=name,  reopen  a  FILE which has not changed size
-              after N (default 5) iterations to see if it has been unlinked or
-              renamed (this is the usual case of rotated log files)
+Log parser 
+  https://github.com/AlexeyAlexey/redmine_metrics_log_parser
 
-
-Log parser https://github.com/AlexeyAlexey/redmine_metrics_log_parser
-
-http://manpages.ubuntu.com/manpages/intrepid/man1/tail.1.html
-
-  http://en.wikipedia.org/wiki/Pipeline_(Unix)#pipe_character
+Tail
+  http://manpages.ubuntu.com/manpages/intrepid/man1/tail.1.html
   http://en.wikipedia.org/wiki/Tail_(Unix)
+
+Pipeline (Unix)
+  http://en.wikipedia.org/wiki/Pipeline_(Unix)#pipe_character
   http://fsl.fmrib.ox.ac.uk/fslcourse/unix_intro/pipe.html
+
+
+  1. Use ActiveSupport::Notifications for track event and write to log file (action_controller_view_logger.log) information in one line and parsable format
+                                 |
+                                 |
+                                 \/
+  2. Use tail for read from logfile and use Pipeline (Unix) for connect outpute and input ruby script
+     (tail -F action_controller_view_logger.log | ruby -n redmine_metrics_log_parser.rb)
+
+                                 |
+                                 |
+                                 \/
+  3. Scrip write to DB 
+
+  

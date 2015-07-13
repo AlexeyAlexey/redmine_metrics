@@ -2,8 +2,8 @@ ActionDispatch::Callbacks.to_prepare do
   Rails.logger.info 'Starting RedmineMetrics plugin for RedMine'
   begin
   	path_to_logfile = File.dirname(__FILE__) + '/log/action_controller_view_logger.log'
-	action_controller_view_logger ||= Logger.new(path_to_logfile)
-	#action_controller_view_logger ||= Logger.new(patth_to_lofile, 7, 1048576)
+	#action_controller_view_logger ||= Logger.new(path_to_logfile)
+	action_controller_view_logger ||= Logger.new(path_to_logfile, 7, 1048576)
 
 	ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
 	  event = ActiveSupport::Notifications::Event.new *args
