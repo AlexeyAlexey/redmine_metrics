@@ -1,5 +1,5 @@
 require 'rubygems'  
-require 'active_record'  
+require 'active_record' 
 require 'byebug'
 
 ActiveRecord::Base.establish_connection(  
@@ -33,7 +33,7 @@ while x = gets
       else
         status = 0
       end
-        
+       
       sql = "INSERT INTO action_controller_#{status}_loggers (transaction_id,
                                                     `current_user`,
                                                     controller,
@@ -49,13 +49,13 @@ while x = gets
                                                          '#{values[3]}',
                                                          '#{values[4]}',
                                                          '#{values[5]}', 
-                                                         '#{values[6]}', 
+                                                         '#{values[6].blank? ? 0 : values[6]}', 
                                                          '#{values[7]}',
                                                          '#{values[8]}', 
                                                          '#{values[9]}', 
                                                          '#{values[10].blank? ? 0 : values[10]}', 
                                                          '#{values[11]}', 
-                                                         '#{values[12]}' );"
+                                                         '#{ActiveRecord::Base.connection.quote_string(values[12])}' );"
     else
       values = /=>name=(.*?)<==>transaction_id=(.*?)<==>start_time=(.*?)<==>end_time=(.*?)<==>duration=(.*?)<==>payload=(.*?)<=/.match(x)
       sql = "INSERT INTO action_view_loggers (transaction_id, 
@@ -67,7 +67,7 @@ while x = gets
                                                   '#{values[3]}', 
                                                   '#{values[4]}', 
                                                   '#{values[5]}', 
-                                                  '#{values[6]}' );"
+                                                  '#{ActiveRecord::Base.connection.quote_string(values[6])}' );"
     end
     ActiveRecord::Base.connection.execute(sql) unless sql.empty?
     

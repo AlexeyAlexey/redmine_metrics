@@ -39,4 +39,7 @@ Pipeline (Unix)
                                  \/
   3. Scrip write to DB 
 
+
+
+/plugins/redmine_metrics/redmine_metrics_log_parser$ tail -F ../log/action_controller_view_logger.log | ruby -n redmine_metrics_log_parser.rb
   
