@@ -5,6 +5,10 @@ ActionDispatch::Callbacks.to_prepare do
 	#action_controller_view_logger ||= Logger.new(path_to_logfile)
 	action_controller_view_logger ||= Logger.new(path_to_logfile, 7, 1048576)
 
+	action_controller_view_logger.formatter = proc do |severity, datetime, progname, msg|
+      "#{msg}\n"
+    end
+
 	ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
 	  event = ActiveSupport::Notifications::Event.new *args
 	  #event.name      # => "process_action.action_controller"
@@ -14,12 +18,14 @@ ActionDispatch::Callbacks.to_prepare do
 	  #event.transaction_id
 	  #event.payload   # => {:extra=>information}
 	  current_user = ""
+	  current_user_id = 0
 	  begin
 	  	current_user = User.current
+	  	current_user_id = current_user.id
 	  rescue 	  	
 	  end
 	
-	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>current_user=#{current_user}<==>controller=#{event.payload[:controller]}<==>action=#{event.payload[:action]}<==>status=#{event.payload[:status]}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>view_runtime=#{event.payload[:view_runtime]}<==>db_runtime=#{event.payload[:db_runtime]}<==>payload=#{event.payload}<="
+	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>current_user=#{current_user}<==>user_id=#{current_user_id}<==>controller=#{event.payload[:controller]}<==>action=#{event.payload[:action]}<==>status=#{event.payload[:status]}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>view_runtime=#{event.payload[:view_runtime]}<==>db_runtime=#{event.payload[:db_runtime]}<==>payload=#{event.payload}<="
 	    
 	end
 	  
