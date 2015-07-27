@@ -3,7 +3,7 @@ ActionDispatch::Callbacks.to_prepare do
   begin
   	path_to_logfile = File.dirname(__FILE__) + '/log/action_controller_view_logger.log'
 	#action_controller_view_logger ||= Logger.new(path_to_logfile)
-	action_controller_view_logger ||= Logger.new(path_to_logfile, 7, 1048576)
+	action_controller_view_logger ||= Logger.new(path_to_logfile, 'daily')#7, 1048576)
 
 	action_controller_view_logger.formatter = proc do |severity, datetime, progname, msg|
       "#{msg}\n"
@@ -28,6 +28,11 @@ ActionDispatch::Callbacks.to_prepare do
 	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>current_user=#{current_user}<==>user_id=#{current_user_id}<==>controller=#{event.payload[:controller]}<==>action=#{event.payload[:action]}<==>status=#{event.payload[:status]}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>view_runtime=#{event.payload[:view_runtime]}<==>db_runtime=#{event.payload[:db_runtime]}<==>payload=#{event.payload}<="
 	    
 	end
+
+	ActiveSupport::Notifications.subscribe("render_partial.action_view") do |*args|
+      event = ActiveSupport::Notifications::Event.new *args
+	  action_controller_view_logger.info "=>name=#{event.name}<==>transaction_id=#{event.transaction_id}<==>start_time=#{event.time.to_s(:db)}<==>end_time=#{event.end.to_s(:db)}<==>duration=#{event.duration}<==>payload=#{event.payload}<="
+    end
 	  
 	#action_view_logger ||= Logger.new("#{Rails.root}/log/action_view_logger.log")
 
